@@ -1,26 +1,26 @@
-# Coupon System API
+**Coupon System API**
 
-## 🎯 Objective
+## Objective
 One-time coupon per user with 100% discount and safe concurrency handling.
 
-## 🛠 Tech Stack
+##  Tech Stack
 - Node.js
 - Express
 - MongoDB
 
-## 🔌 APIs
+**APIs**
 
-### Validate Coupon
+# Validate Coupon
 POST /validate-coupon  
 Checks if coupon is valid (no update)
 
-### Apply Coupon
+# Apply Coupon
 POST /apply-coupon  
 Applies coupon and marks it as used
 
-## 🧠 Key Idea
+**Key Idea**
 We use a unique index on (userId, couponId) so only one request can succeed even if many requests come at the same time.
 
-## ▶️ Run Project
+**Run Project**
 npm install  
 node app.js
