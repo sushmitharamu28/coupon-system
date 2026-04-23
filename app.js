@@ -4,12 +4,11 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());
 
-/* ================== DB CONNECTION ================== */
+
 mongoose.connect('mongodb://localhost:27017/couponDB')
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
-/* ================== MODELS ================== */
 
 // Coupon Model
 const Coupon = mongoose.model('Coupon', {
@@ -23,7 +22,7 @@ const userCouponSchema = new mongoose.Schema({
   couponId: String
 });
 
-// 🔥 UNIQUE constraint (handles concurrency)
+
 userCouponSchema.index({ userId: 1, couponId: 1 }, { unique: true });
 
 const UserCoupon = mongoose.model('UserCoupon', userCouponSchema);
@@ -37,7 +36,6 @@ const Transaction = mongoose.model('Transaction', {
   status: String
 });
 
-/* ================== CREATE COUPON ================== */
 
 app.get('/create-coupon', async (req, res) => {
   try {
@@ -53,7 +51,6 @@ app.get('/create-coupon', async (req, res) => {
   }
 });
 
-/* ================== VALIDATE API ================== */
 
 app.post('/validate-coupon', async (req, res) => {
   try {
@@ -83,7 +80,6 @@ app.post('/validate-coupon', async (req, res) => {
   }
 });
 
-/* ================== APPLY API ================== */
 
 app.post('/apply-coupon', async (req, res) => {
   try {
@@ -96,7 +92,7 @@ app.post('/apply-coupon', async (req, res) => {
       return res.json({ success: false, message: "Invalid coupon" });
     }
 
-    // 🔥 Try inserting (handles concurrency automatically)
+    // handles concurrency automatically
     await UserCoupon.create({ userId, couponId });
 
     // Create transaction
@@ -130,7 +126,7 @@ app.post('/apply-coupon', async (req, res) => {
   }
 });
 
-/* ================== SERVER ================== */
+
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
